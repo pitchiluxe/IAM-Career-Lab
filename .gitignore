@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Electron build output
+release/
+dist/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Secrets — NEVER commit
+*.pem
+*.key
+*.pfx
+*.cert
+secrets/
+
+# VM disks
+*.vhd
+*.vhdx
+*.vdi
+*.qcow2
+*.iso
+
+# Logs
+*.log
+npm-debug.log*
+
+# Lock files (keep package-lock.json)
+yarn.lock
+pnpm-lock.yaml
+
+# Build artifacts
+app/.next/
+app/release/
+release/

@@ -1,0 +1,13 @@
+{
+  "name": "IAM Career Lab",
+  "short_name": "IAM Lab",
+  "description": "Four-year hands-on Identity & Access Management training platform: Help Desk to IAM Analyst to IAM Engineer to IAM Architect",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1120",
+  "theme_color": "#3478f6",
+  "icons": [
+    { "src": "/icon.png", "sizes": "256x256", "type": "image/png" },
+    { "src": "/icon.ico", "sizes": "256x256", "type": "image/x-icon" }
+  ]
+}

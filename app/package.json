@@ -1,0 +1,93 @@
+{
+  "name": "iam-career-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "IAM Career Lab - Four-year hands-on Identity and Access Management training platform",
+  "author": "Erick OMARI",
+  "license": "MIT",
+  "main": "../electron/main.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:3000 && electron ../electron/main.js\"",
+    "electron:build": "next build && electron-builder --win --x64",
+    "electron:pack": "next build && electron-builder --win --x64 --dir"
+  },
+  "dependencies": {
+    "next": "^14.2.33",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.10",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "autoprefixer": "10.4.19",
+    "concurrently": "^9.0.1",
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8",
+    "electron-updater": "^6.3.9",
+    "postcss": "8.4.39",
+    "tailwindcss": "3.4.6",
+    "typescript": "5.5.3",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.erickomari.iamcareerlab",
+    "productName": "IAM Career Lab",
+    "copyright": "Copyright © 2026 Erick OMARI",
+    "directories": {
+      "output": "../release",
+      "buildResources": "../electron/build"
+    },
+    "files": [
+      ".next/standalone/**/*",
+      ".next/static/**/*",
+      "public/**/*",
+      "../electron/main.js",
+      "../electron/preload.js",
+      "../electron/build/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": ".",
+        "to": "app",
+        "filter": [
+          ".next/standalone/**/*",
+          ".next/static/**/*",
+          "public/**/*",
+          "package.json"
+        ]
+      }
+    ],
+    "win": {
+      "icon": "../electron/build/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "IAM Career Lab",
+      "installerIcon": "../electron/build/icon.ico",
+      "uninstallerIcon": "../electron/build/icon.ico",
+      "installerHeaderIcon": "../electron/build/icon.ico"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "pitchiluxe",
+      "repo": "IAM-Career-Lab",
+      "releaseType": "release"
+    }
+  }
+}
