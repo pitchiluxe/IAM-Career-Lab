@@ -12,9 +12,8 @@
     "start": "next start",
     "lint": "next lint",
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:3000 && electron electron/main.js\"",
-    "electron:build": "next build && electron-builder --win --x64",
-    "electron:pack": "next build && electron-builder --win --x64 --dir",
-    "postbuild": "node scripts/copy-standalone.js"
+    "electron:build": "cross-env ELECTRON_BUILD=true npm run build && node scripts/copy-standalone.js && electron-builder --win --x64",
+    "electron:pack": "cross-env ELECTRON_BUILD=true npm run build && node scripts/copy-standalone.js && electron-builder --win --x64 --dir"
   },
   "dependencies": {
     "next": "^14.2.33",
@@ -27,6 +26,7 @@
     "@types/react-dom": "18.3.0",
     "autoprefixer": "10.4.19",
     "concurrently": "^9.0.1",
+    "cross-env": "^7.0.3",
     "electron": "^33.0.0",
     "electron-builder": "^25.1.8",
     "electron-updater": "^6.3.9",
@@ -71,7 +71,9 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ]
     },
