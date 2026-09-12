@@ -44,3 +44,6 @@ credentials.json
 
 # Progress data (local only)
 app/data/progress.json
+
+.vercel
+.env*
