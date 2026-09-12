@@ -1,6 +1,6 @@
 {
   "name": "iam-career-lab",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "IAM Career Lab - Four-year hands-on Identity and Access Management training platform",
   "author": "Erick OMARI",
@@ -12,8 +12,8 @@
     "start": "next start",
     "lint": "next lint",
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:3000 && electron electron/main.js\"",
-    "electron:build": "cross-env ELECTRON_BUILD=true npm run build && node scripts/copy-standalone.js && electron-builder --win --x64",
-    "electron:pack": "cross-env ELECTRON_BUILD=true npm run build && node scripts/copy-standalone.js && electron-builder --win --x64 --dir"
+    "electron:build": "cross-env ELECTRON_BUILD=true npm run build && node scripts/copy-standalone.js && node scripts/pre-package.js && electron-builder --win --x64",
+    "electron:pack": "cross-env ELECTRON_BUILD=true npm run build && node scripts/copy-standalone.js && node scripts/pre-package.js && electron-builder --win --x64 --dir"
   },
   "dependencies": {
     "next": "^14.2.33",
@@ -46,21 +46,14 @@
     "files": [
       "electron/main.js",
       "electron/preload.js",
-      "electron/build/**/*",
+      "electron/build/icon.ico",
+      "electron/build/icon.png",
       "package.json"
     ],
     "extraResources": [
       {
-        "from": ".next/standalone",
-        "to": "app/.next/standalone"
-      },
-      {
-        "from": ".next/static",
-        "to": "app/.next/static"
-      },
-      {
-        "from": "public",
-        "to": "app/public"
+        "from": "electron/build/app",
+        "to": "app"
       }
     ],
     "win": {

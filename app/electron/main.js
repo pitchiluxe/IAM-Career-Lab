@@ -31,8 +31,6 @@ function startNextServer() {
     const serverPath = path.join(
       process.resourcesPath,
       "app",
-      ".next",
-      "standalone",
       "server.js"
     );
 
