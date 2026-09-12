@@ -37,10 +37,50 @@ const features = [
 ];
 
 const yearPath = [
-  { year: "Year 1", role: "Help Desk / IT Support", color: "from-blue-500 to-cyan-500", skills: ["Windows", "Networking", "AD", "GPO", "PowerShell"] },
-  { year: "Year 2", role: "IAM Analyst", color: "from-cyan-500 to-teal-500", skills: ["SSO", "MFA", "RBAC", "Lifecycle", "Access Reviews"] },
-  { year: "Year 3", role: "IAM Engineer", color: "from-teal-500 to-green-500", skills: ["Automation", "REST APIs", "IGA", "PAM", "Incident Response"] },
-  { year: "Year 4", role: "IAM Architect", color: "from-green-500 to-emerald-500", skills: ["Zero Trust", "Governance", "Risk", "Architecture", "Leadership"] },
+  {
+    year: "Year 1",
+    role: "Help Desk / IT Support",
+    color: "from-blue-500 to-cyan-500",
+    accent: "#3b82f6",
+    icon: "M18 8h1a4 4 0 010 8h-1M6 8h12v8a6 6 0 01-12 0V8z M8 14h.01 M12 14h.01 M16 14h.01",
+    summary: "Master the fundamentals of IT support — from Windows administration to networking, Active Directory, and ticketing.",
+    skills: ["Windows", "Networking", "AD", "GPO", "PowerShell"],
+    phases: 11,
+    tickets: 15,
+  },
+  {
+    year: "Year 2",
+    role: "IAM Analyst",
+    color: "from-cyan-500 to-teal-500",
+    accent: "#06b6d4",
+    icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+    summary: "Step into identity and access management — SSO, MFA, RBAC, lifecycle management, and access reviews.",
+    skills: ["SSO", "MFA", "RBAC", "Lifecycle", "Access Reviews"],
+    phases: 11,
+    tickets: 12,
+  },
+  {
+    year: "Year 3",
+    role: "IAM Engineer",
+    color: "from-teal-500 to-green-500",
+    accent: "#14b8a6",
+    icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z",
+    summary: "Build and automate IAM systems — REST APIs, IGA platforms, privileged access management, and incident response.",
+    skills: ["Automation", "REST APIs", "IGA", "PAM", "Incident Response"],
+    phases: 11,
+    tickets: 0,
+  },
+  {
+    year: "Year 4",
+    role: "IAM Architect",
+    color: "from-green-500 to-emerald-500",
+    accent: "#10b981",
+    icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0H5m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m-1 4h1m5-9h1m-1 4h1m-1 4h1 M3 21h18",
+    summary: "Lead IAM strategy and governance — zero trust architecture, risk management, and enterprise leadership.",
+    skills: ["Zero Trust", "Governance", "Risk", "Architecture", "Leadership"],
+    phases: 11,
+    tickets: 0,
+  },
 ];
 
 export default function LandingPage() {
@@ -192,48 +232,165 @@ export default function LandingPage() {
 
       {/* ===== CAREER PATH ===== */}
       <section id="path" className="relative mx-auto max-w-6xl px-6 py-24">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold text-white md:text-4xl">Your Four-Year Career Path</h2>
-          <p className="mt-4 text-[#93a4c0]">Progress sequentially through each role. Gates unlock as you demonstrate competency.</p>
+        <div className="mb-16 text-center">
+          <div className="fade-in mb-4 inline-flex items-center gap-2 rounded-full border border-[#1f2d4d] bg-[#111a2e] px-4 py-2 text-xs text-[#93a4c0]">
+            <span className="h-2 w-2 rounded-full bg-omari-500 animate-pulse"></span>
+            44 Phases · 4 Career Gates · Sequential Unlock
+          </div>
+          <h2 className="fade-up text-3xl font-bold text-white md:text-5xl" style={{ animationDelay: "0.1s" }}>
+            Your Four-Year <span className="gradient-text">Career Path</span>
+          </h2>
+          <p className="fade-up mx-auto mt-4 max-w-2xl text-[#93a4c0]" style={{ animationDelay: "0.2s" }}>
+            Progress sequentially through each role. Career gates unlock as you demonstrate competency,
+            earn scores, and submit evidence.
+          </p>
         </div>
 
-        <div className="relative">
-          {/* Connecting line */}
-          <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gradient-to-b from-blue-500 via-teal-500 to-green-500 opacity-30"></div>
+        {/* ===== Desktop: Horizontal roadmap ===== */}
+        <div className="hidden md:block">
+          {/* Track line */}
+          <div className="relative mb-2">
+            <div className="absolute left-0 right-0 top-7 h-1 rounded-full bg-[#1f2d4d]"></div>
+            <div className="path-fill absolute left-0 top-7 h-1 rounded-full bg-gradient-to-r from-blue-500 via-teal-500 to-emerald-500"></div>
+            <div className="relative flex justify-between">
+              {yearPath.map((yp, i) => (
+                <div key={i} className="flex flex-col items-center" style={{ width: "24%" }}>
+                  {/* Glowing node */}
+                  <div
+                    className="path-node group relative z-10 flex h-14 w-14 items-center justify-center rounded-full border-2 bg-[#0b1120] transition-all duration-300 hover:scale-110"
+                    style={{ borderColor: yp.accent, boxShadow: `0 0 20px ${yp.accent}40` }}
+                  >
+                    <span className="text-lg font-bold text-white">{i + 1}</span>
+                    {/* Pulse ring */}
+                    <span
+                      className="path-pulse absolute inset-0 rounded-full border-2"
+                      style={{ borderColor: yp.accent, animationDelay: `${i * 0.5}s` }}
+                    ></span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
-          <div className="space-y-12">
+          {/* Cards */}
+          <div className="mt-8 flex gap-4">
             {yearPath.map((yp, i) => (
-              <div key={i} className={`flex flex-col items-center gap-6 md:flex-row ${i % 2 === 1 ? "md:flex-row-reverse" : ""}`}>
-                <div className="flex-1">
-                  <div className={`card-hover panel p-6 bg-gradient-to-br ${yp.color} bg-opacity-10`}>
-                    <div className="mb-2 flex items-center gap-3">
-                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0b1120] text-sm font-bold text-white border-2 border-omari-500">
-                        {i + 1}
-                      </span>
-                      <div>
-                        <div className="text-xs font-semibold uppercase tracking-wider text-omari-300">{yp.year}</div>
-                        <div className="text-lg font-bold text-white">{yp.role}</div>
-                      </div>
+              <div
+                key={i}
+                className="path-card group relative flex-1 overflow-hidden rounded-xl border border-[#1f2d4d] bg-[#0d1626] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#3478f6]/40"
+                style={{ animationDelay: `${i * 0.15}s` }}
+              >
+                {/* Gradient top bar */}
+                <div className={`absolute left-0 right-0 top-0 h-1 bg-gradient-to-r ${yp.color}`}></div>
+                {/* Glow on hover */}
+                <div
+                  className="pointer-events-none absolute -top-20 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-20"
+                  style={{ background: yp.accent }}
+                ></div>
+
+                <div className="relative z-10">
+                  <div className="mb-3 flex items-center gap-2">
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke={yp.accent} strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d={yp.icon} />
+                    </svg>
+                    <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: yp.accent }}>
+                      {yp.year}
+                    </span>
+                  </div>
+                  <h3 className="mb-2 text-lg font-bold text-white">{yp.role}</h3>
+                  <p className="mb-4 text-xs leading-relaxed text-[#93a4c0]">{yp.summary}</p>
+
+                  {/* Stats row */}
+                  <div className="mb-4 flex gap-4 text-xs">
+                    <div className="flex items-center gap-1 text-[#5a6b88]">
+                      <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                      </svg>
+                      {yp.phases} phases
                     </div>
-                    <div className="mt-3 flex flex-wrap gap-2">
+                    {yp.tickets > 0 && (
+                      <div className="flex items-center gap-1 text-[#5a6b88]">
+                        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z" />
+                        </svg>
+                        {yp.tickets} tickets
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Skills */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {yp.skills.map((s) => (
+                      <span
+                        key={s}
+                        className="rounded-md border border-[#1f2d4d] bg-[#0b1120] px-2 py-1 text-[10px] font-medium text-[#93a4c0] transition-colors group-hover:text-white"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Gate indicators */}
+          <div className="mt-6 flex items-center justify-center gap-2 text-xs text-[#5a6b88]">
+            <svg className="h-4 w-4 text-omari-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            Career gates between each year require demonstrated competency before unlocking the next
+          </div>
+        </div>
+
+        {/* ===== Mobile: Vertical timeline ===== */}
+        <div className="md:hidden">
+          <div className="relative">
+            {/* Vertical line */}
+            <div className="absolute bottom-0 left-6 top-0 w-0.5 bg-gradient-to-b from-blue-500 via-teal-500 to-emerald-500 opacity-30"></div>
+
+            <div className="space-y-6">
+              {yearPath.map((yp, i) => (
+                <div key={i} className="relative flex gap-4">
+                  {/* Node */}
+                  <div className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border-2 bg-[#0b1120]" style={{ borderColor: yp.accent }}>
+                    <span className="text-sm font-bold text-white">{i + 1}</span>
+                    <span className="path-pulse absolute inset-0 rounded-full border-2" style={{ borderColor: yp.accent, animationDelay: `${i * 0.5}s` }}></span>
+                  </div>
+
+                  {/* Card */}
+                  <div className="flex-1 overflow-hidden rounded-xl border border-[#1f2d4d] bg-[#0d1626] p-4">
+                    <div className={`absolute left-0 top-0 h-1 w-full bg-gradient-to-r ${yp.color}`}></div>
+                    <div className="mt-1 flex items-center gap-2">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: yp.accent }}>
+                        {yp.year}
+                      </span>
+                    </div>
+                    <h3 className="mt-1 text-base font-bold text-white">{yp.role}</h3>
+                    <p className="mt-2 text-xs leading-relaxed text-[#93a4c0]">{yp.summary}</p>
+                    <div className="mt-3 flex gap-3 text-[10px] text-[#5a6b88]">
+                      <span>{yp.phases} phases</span>
+                      {yp.tickets > 0 && <span>· {yp.tickets} tickets</span>}
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-1.5">
                       {yp.skills.map((s) => (
-                        <span key={s} className="badge bg-[#0b1120] text-[#93a4c0]">{s}</span>
+                        <span key={s} className="rounded-md border border-[#1f2d4d] bg-[#0b1120] px-2 py-0.5 text-[10px] text-[#93a4c0]">
+                          {s}
+                        </span>
                       ))}
                     </div>
                   </div>
                 </div>
-                {/* Center dot */}
-                <div className="relative z-10 flex h-4 w-4 flex-shrink-0 items-center justify-center">
-                  <span className="h-4 w-4 rounded-full bg-omari-500 ring-4 ring-[#0b1120]"></span>
-                </div>
-                <div className="flex-1"></div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
         <div className="mt-12 text-center">
           <Link href="/dashboard" className="btn-primary pulse-glow px-8 py-3 text-base">
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
             Start Year 1 — IT Support Foundations
           </Link>
         </div>
