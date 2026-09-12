@@ -127,9 +127,6 @@ export default function LandingPage() {
               </svg>
               Download
             </a>
-            <Link href="/dashboard" className="btn-primary text-xs pulse-glow">
-              Launch Dashboard
-            </Link>
           </div>
         </div>
       </nav>
@@ -384,15 +381,6 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
-        </div>
-
-        <div className="mt-12 text-center">
-          <Link href="/dashboard" className="btn-primary pulse-glow px-8 py-3 text-base">
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            Start Year 1 — IT Support Foundations
-          </Link>
         </div>
       </section>
 
