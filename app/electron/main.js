@@ -46,6 +46,12 @@ function startNextServer() {
     nextServer = spawn(process.execPath, [serverPath], {
       env: {
         ...process.env,
+        // Required. process.execPath is the Electron binary, and handing it a
+        // .js path does NOT run that file as Node - Electron ignores the
+        // argument and boots the app again, so this very file re-executes and
+        // the Next server never starts. ELECTRON_RUN_AS_NODE makes the same
+        // binary behave as a plain Node runtime, which is what server.js needs.
+        ELECTRON_RUN_AS_NODE: "1",
         PORT: String(SERVER_PORT),
         HOSTNAME: "127.0.0.1",
         NODE_ENV: "production",

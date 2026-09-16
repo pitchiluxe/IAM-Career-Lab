@@ -24,8 +24,16 @@ function startNextServer() {
       "server.js"
     );
 
+    // NOTE: this directory is NOT the one that ships. electron-builder resolves
+    // "main" and "files" relative to app/, so app/electron/main.js is packaged
+    // and this copy is a stale duplicate kept only to avoid breaking anything
+    // that still points here. Fix both, or delete this one.
     const env = {
       ...process.env,
+      // Required. process.execPath is the Electron binary, and handing it a .js
+      // path does NOT run that file as Node - Electron ignores the argument and
+      // boots the app again, so the Next server never starts.
+      ELECTRON_RUN_AS_NODE: "1",
       PORT: "3456",
       HOSTNAME: "127.0.0.1",
     };
