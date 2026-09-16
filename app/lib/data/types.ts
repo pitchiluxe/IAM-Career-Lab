@@ -92,3 +92,68 @@ export interface ArchitectureData {
   gpoConcepts: GPOConcept[];
   networkPlan: NetworkPlan;
 }
+
+// ===== Study aids =====
+
+export type DrillCategory =
+  | "Windows"
+  | "Networking"
+  | "Active Directory"
+  | "PowerShell"
+  | "Security"
+  | "Identity"
+  | "Protocols"
+  | "Governance"
+  | "Architecture";
+
+export interface DrillCard {
+  id: string;
+  yearId: string;
+  category: DrillCategory;
+  /** The recall prompt. Phrased as a question a colleague would actually ask. */
+  prompt: string;
+  /** The answer, kept short enough to self-grade honestly. */
+  answer: string;
+  /** Why this matters on the job. Recall without context does not transfer. */
+  whyItMatters: string;
+}
+
+export interface ReferenceEntry {
+  /** Command, port, event id, or term. */
+  item: string;
+  meaning: string;
+  /** Optional worked example or gotcha. */
+  note?: string;
+}
+
+export interface ReferenceSection {
+  id: string;
+  title: string;
+  yearId: string;
+  intro: string;
+  entries: ReferenceEntry[];
+}
+
+export interface InterviewQuestion {
+  id: string;
+  yearId: string;
+  /** What a hiring manager is really testing with this question. */
+  tests: string;
+  question: string;
+  /** Concrete points a strong answer hits. */
+  strongAnswer: string[];
+  /** The answer that gets candidates rejected. */
+  weakAnswer: string;
+  /** Which lab or ticket in this platform gives the candidate a real story. */
+  drawOnLab?: string;
+}
+
+export interface Certification {
+  id: string;
+  name: string;
+  vendor: string;
+  yearId: string;
+  /** Honest positioning: what this cert does and does not do for a career. */
+  worthIt: string;
+  mapsToPhases: string[];
+}

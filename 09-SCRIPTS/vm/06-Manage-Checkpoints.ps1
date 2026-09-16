@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    IAM Career Lab — VM checkpoint management
+    IAM Career Lab - VM checkpoint management
 .DESCRIPTION
     Manages VM checkpoints at clean milestones. Checkpoints are NOT backups.
 .NOTES
@@ -47,7 +47,7 @@ switch ($Action) {
         Write-Host ""
         Write-Host "Standard checkpoint names:" -ForegroundColor Cyan
         foreach ($k in $standardCheckpoints.Keys) {
-            Write-Host "  $k — $($standardCheckpoints[$k])" -ForegroundColor White
+            Write-Host "  $k - $($standardCheckpoints[$k])" -ForegroundColor White
         }
     }
 
@@ -55,7 +55,7 @@ switch ($Action) {
         if (-not $CheckpointName) {
             Write-Host "Available checkpoint names:" -ForegroundColor Yellow
             foreach ($k in $standardCheckpoints.Keys) {
-                Write-Host "  $k — $($standardCheckpoints[$k])" -ForegroundColor White
+                Write-Host "  $k - $($standardCheckpoints[$k])" -ForegroundColor White
             }
             $CheckpointName = Read-Host "Enter checkpoint name"
         }

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://iam-career-lab.vercel.app"),
   title: "IAM Career Lab — Identity & Access Management Training",
   description:
-    "Four-year hands-on IAM training platform: Help Desk → IAM Analyst → IAM Engineer → IAM Architect. 44 progressive lab phases, 27 realistic tickets, Ollama AI tutor, portfolio generation, and real Hyper-V VM infrastructure.",
+    "Four-year hands-on IAM training platform: Help Desk → IAM Analyst → IAM Engineer → IAM Architect. 44 progressive lab phases, 41 realistic tickets with hidden root causes, recall drills, interview preparation, a local Ollama tutor, portfolio generation, and Hyper-V VM provisioning.",
   keywords: [
     "IAM",
     "Identity and Access Management",
@@ -22,6 +22,9 @@ export const metadata: Metadata = {
     "SSO",
     "MFA",
     "Hyper-V lab",
+    "SC-300",
+    "CISSP preparation",
+    "IAM interview questions",
     "IT career",
     "hands-on training",
   ],
@@ -38,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "IAM Career Lab — Identity & Access Management Training",
     description:
-      "Four-year hands-on IAM training platform: Help Desk → IAM Analyst → IAM Engineer → IAM Architect. 44 lab phases, 27 tickets, AI tutor, and real VM infrastructure.",
+      "Four-year hands-on IAM training platform: Help Desk → IAM Analyst → IAM Engineer → IAM Architect. 44 lab phases, 41 tickets, recall drills, interview prep, and a local AI tutor.",
     type: "website",
     siteName: "IAM Career Lab",
     images: [{ url: "/icon.png", width: 256, height: 256, alt: "IAM Career Lab" }],

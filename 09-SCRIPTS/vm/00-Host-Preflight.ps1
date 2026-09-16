@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    IAM Career Lab — Host Preflight Check
+    IAM Career Lab - Host Preflight Check
 .DESCRIPTION
     Inspects the host system for VM readiness: OS, CPU, RAM, disk, Hyper-V, virtualization, and Ollama.
     Produces a preflight report. Does not change anything.
@@ -8,7 +8,7 @@
     Purpose:     Detect host capabilities before building VMs
     Prerequisites: Windows 10/11, PowerShell 5.1+
     Permissions: Run as Administrator for full Hyper-V detection
-    Safe-use:    Read-only — does not modify the system
+    Safe-use:    Read-only - does not modify the system
     Rollback:    N/A (no changes made)
 #>
 
@@ -18,7 +18,7 @@ param()
 $ErrorActionPreference = "Stop"
 
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host " IAM Career Lab — Host Preflight" -ForegroundColor Cyan
+Write-Host " IAM Career Lab - Host Preflight" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -76,7 +76,7 @@ if ($hyperVCmdlet) {
     Write-Host "[VM] Existing Switches:" -ForegroundColor White
     Get-VMSwitch | Format-Table Name, SwitchType -AutoSize
 } else {
-    Write-Host "[VM] Cannot list VMs — Hyper-V cmdlets not available" -ForegroundColor Yellow
+    Write-Host "[VM] Cannot list VMs - Hyper-V cmdlets not available" -ForegroundColor Yellow
 }
 Write-Host ""
 

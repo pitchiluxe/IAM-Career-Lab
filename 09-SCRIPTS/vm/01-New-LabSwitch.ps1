@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    IAM Career Lab — Create isolated Hyper-V lab switch
+    IAM Career Lab - Create isolated Hyper-V lab switch
 .DESCRIPTION
     Creates a private Hyper-V virtual switch for the 10.10.10.0/24 lab network.
     Idempotent: if the switch already exists, it reports and exits.
@@ -31,7 +31,7 @@ if ($existing) {
 # Check for IP conflict on host
 $adapter = Get-NetIPAddress -IPAddress "10.10.10.*" -ErrorAction SilentlyContinue
 if ($adapter) {
-    Write-Warning "An adapter already uses 10.10.10.x — verify this is expected before proceeding."
+    Write-Warning "An adapter already uses 10.10.10.x - verify this is expected before proceeding."
 }
 
 New-VMSwitch -Name $SwitchName -SwitchType Private

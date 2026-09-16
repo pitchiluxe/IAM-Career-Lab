@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    IAM Career Lab — Create FS01 file server VM (optional)
+    IAM Career Lab - Create FS01 file server VM (optional)
 .DESCRIPTION
     Creates the FS01 file server VM for permissions, shares, NTFS, and access-control labs.
     Requires legitimate Windows Server installation media (ISO). Does NOT pirate or bypass licensing.
@@ -26,7 +26,7 @@ param(
     [string]$StaticIP = "10.10.10.20",
     [string]$SubnetMask = "255.255.255.0",
     [string]$DNSServer = "10.10.10.10",
-    [string]$DomainName = "lab.local"
+    [string]$DomainName = "omari.local"
 )
 
 $ErrorActionPreference = "Stop"

@@ -1,12 +1,12 @@
 <#
 .SYNOPSIS
-    IAM Career Lab — Build AD structure (OUs, users, groups, GPOs)
+    IAM Career Lab - Build AD structure (OUs, users, groups, GPOs)
 .DESCRIPTION
     Creates the IAM Career Lab OU structure, synthetic users, groups, and baseline GPOs
-    on the lab.local domain. Run from DC01 or a domain-joined admin workstation.
+    on the omari.local domain. Run from DC01 or a domain-joined admin workstation.
 .NOTES
     Purpose:     Populate AD with lab data for training
-    Prerequisites: DC01 promoted to domain controller for lab.local
+    Prerequisites: DC01 promoted to domain controller for omari.local
     Permissions: Domain Admin
     Safe-use:    Creates OUs/users/groups in the domain; does not modify existing infrastructure
     Rollback:    Remove-ADOrganizationalUnit -Recursive on created OUs
@@ -16,12 +16,18 @@
 [CmdletBinding()]
 param(
     [string]$DomainDN = "DC=omari,DC=local",
-    [string]$DomainName = "lab.local"
+    [string]$DomainName = "omari.local",
+
+    # No default on purpose. A password committed to a repository is a password
+    # you have published, even in a lab. You will be prompted if you omit this,
+    # and the value never touches disk or the shell history.
+    [Parameter(Mandatory = $true)]
+    [SecureString]$InitialUserPassword
 )
 
 $ErrorActionPreference = "Stop"
 
-Write-Host "Building IAM Career Lab AD structure on $DomainName" -ForegroundColor Cyan
+Write-Host "Building OMARI Technologies AD structure on $DomainName" -ForegroundColor Cyan
 
 # --- OUs ---
 $ouNames = @("Users", "Groups", "Workstations", "Servers", "HelpDesk", "IAM", "Privileged", "Disabled", "ServiceAccounts")
@@ -60,7 +66,12 @@ $groups = @(
     @{Name="GG-Executives"; Desc="Executive leadership"},
     @{Name="GG-VPN-Users"; Desc="VPN users"},
     @{Name="GG-File-Read"; Desc="Read access to file shares"},
-    @{Name="GG-File-Modify"; Desc="Modify access to file shares"}
+    @{Name="GG-File-Modify"; Desc="Modify access to file shares"},
+    # Tiered administration groups, used from Year 1 (privileged account hygiene)
+    # through Year 4 (Zero Trust / tier isolation architecture).
+    @{Name="GG-Tier0-Admins"; Desc="Domain-tier admins - separate accounts only"},
+    @{Name="GG-Tier1-ServerAdmins"; Desc="Member server admins, not domain controllers"},
+    @{Name="GG-JIT-Eligible"; Desc="Eligible to request time-bound elevated access"}
 )
 
 $groupsOU = "OU=Groups,$DomainDN"
@@ -80,8 +91,11 @@ $users = @(
     @{Name="Carol Williams"; Sam="c.williams"; Dept="Help Desk"; Role="Help Desk Technician"; OU="HelpDesk"; Groups=@("GG-HelpDesk","GG-File-Modify")},
     @{Name="Daniel Brown"; Sam="d.brown"; Dept="Engineering"; Role="Software Engineer"; OU="Engineering"; Groups=@("GG-Engineering","GG-File-Modify")},
     @{Name="Elena Davis"; Sam="e.davis"; Dept="IAM"; Role="IAM Analyst"; OU="IAM"; Groups=@("GG-IAM-Analysts","GG-File-Read")},
-    @{Name="Frank Miller"; Sam="f.miller"; Dept="Executive"; Role="CIO"; OU="Executives"; Groups=@("GG-Executives","GG-File-Read")}
+    @{Name="Frank Miller"; Sam="f.miller"; Dept="Executive"; Role="CIO"; OU="Executives"; Groups=@("GG-Executives","GG-File-Read")},
+    @{Name="Henry Adams"; Sam="h.adams"; Dept="IT Operations"; Role="Systems Administrator"; OU="Corporate"; Groups=@("GG-Tier1-ServerAdmins","GG-JIT-Eligible","GG-File-Modify")}
 )
+# Note: Grace Lee is intentionally absent. She is the new hire the learner
+# provisions by hand in ticket HD-001. Seeding her here removes the exercise.
 
 foreach ($u in $users) {
     $userOU = "OU=$($u.OU),OU=Users,$DomainDN"
@@ -89,7 +103,7 @@ foreach ($u in $users) {
         $parts = $u.Name -split " "
         New-ADUser -Name $u.Name -GivenName $parts[0] -Surname $parts[1] -SamAccountName $u.Sam `
             -UserPrincipalName "$($u.Sam)@$DomainName" -Department $u.Dept -Title $u.Role `
-            -Path $userOU -AccountPassword (ConvertTo-SecureString "OmariLab!2024" -AsPlainText -Force) `
+            -Path $userOU -AccountPassword $InitialUserPassword `
             -Enabled $true -ChangePasswordAtLogon $true
         Write-Host "  Created user: $($u.Name) ($($u.Sam))" -ForegroundColor Green
         foreach ($grp in $u.Groups) {

@@ -13,7 +13,11 @@
 
 ## What is the IAM Career Lab?
 
-The IAM Career Lab is a professional, hands-on training platform that takes you through a complete four-year IAM career progression. It is not a simulation — it coordinates **real Hyper-V VMs**, **real Active Directory**, **real tickets**, and a **real AI instructor** (Ollama) to build genuine, demonstrable skills.
+The IAM Career Lab is a professional, hands-on training platform that takes you through a complete four-year IAM career progression inside a fictional enterprise, **OMARI Technologies** (`omari.local`).
+
+It coordinates **real Hyper-V VMs**, **real Active Directory**, a **real ticket queue with hidden root causes**, and a **local AI instructor** (Ollama) to build genuine, demonstrable skills.
+
+The platform will not claim something works when it does not. The host preflight page inspects your actual machine and reports what it finds, including refusing to report at all when it is running on a hosted server rather than your own computer.
 
 ### The Four-Year Path
 
@@ -31,11 +35,18 @@ Each year has **11 progressive lab phases** (44 total), unlocked sequentially by
 ## Key Features
 
 - **44 Progressive Lab Phases** — Four years × 11 phases, each with scenarios, objectives, hidden root causes, hints, evidence requirements, and portfolio artifacts
-- **27 Realistic Tickets** — Password resets, account lockouts, DNS failures, GPO issues, suspicious logins, IAM investigations, contractor deprovisioning, orphaned accounts, and more
+- **41 Realistic Tickets** — Across all four years, and the *shape* changes as the career does. Year 1 and 2 tickets have one concrete root cause to find. Year 3 tickets are engineering defects where the symptom is several steps from the bug (idempotency failures, pagination bugs, token expiry, leaked secrets). Year 4 items are architecture decision records, where the failure mode is choosing badly under pressure rather than misdiagnosing
+- **Root causes stay hidden** — The solution unlocks only after you write your own diagnosis, and the platform records how many hints each ticket took. "Solved unaided" is tracked separately, because it is the number worth showing an employer
+- **47 Recall Drills** — Active recall, not multiple choice. Every card carries a *why it matters* note, because a fact recalled without knowing when to use it does not transfer to the job
+- **Interview Preparation** — Each question names what the interviewer is actually testing, what a strong answer hits, **what quietly gets candidates rejected**, and which lab in this platform gives you a real story to tell
+- **Certification Roadmap** — Honest positioning for A+, Network+, Security+, SC-300, Okta, AZ-104, SailPoint, CyberArk and CISSP, including where a certification is weak or market-specific
+- **Working Reference** — Ports, Windows security event IDs, logon types, PowerShell for AD, network triage, and the identity vocabulary that gets misused
 - **Ollama AI Tutor** — Local AI instructor with progressive hints, Socratic questioning, and a scoring rubric (25% process, 30% technical, 15% security, 15% documentation, 15% communication)
-- **Real VM Infrastructure** — PowerShell scripts for Hyper-V: DC01 domain controller, HD01 Windows client, FS01 file server on an isolated 10.10.10.0/24 network
+- **Real VM Infrastructure** — PowerShell scripts for Hyper-V: DC01 domain controller, HD01 Windows client, FS01 file server on an isolated 10.10.10.0/24 network. The preflight page reads your actual CPU, RAM, disk, Hyper-V state and existing VMs, and tells you honestly whether the lab can be built
+- **No-Hyper-V path** — Windows Home cannot run Hyper-V. Every lab exercise and the whole AD structure are hypervisor-independent, so VirtualBox works; only `09-SCRIPTS/vm/` is Hyper-V specific
 - **Portfolio Generation** — GitHub-ready markdown artifacts: READMEs, architecture docs, troubleshooting reports, root-cause analysis, lessons learned
-- **Progress Tracking** — Per-phase status, scores, evidence, and career gate logic with localStorage persistence
+- **Progress Tracking** — Per-phase status, scores, evidence, ticket outcomes and drill streaks. Career gates are **enforced**, not decorative: a locked phase cannot be opened, including by typing its URL
+- **Progress Export / Import** — Progress lives in browser storage, so Settings offers a JSON backup. Clearing site data would otherwise destroy four years of work
 - **Desktop App** — Native Windows application with auto-updates from GitHub Releases
 
 ---
@@ -114,7 +125,7 @@ PowerShell scripts for building real Hyper-V VMs are in `09-SCRIPTS/vm/`:
 | `00-Host-Preflight.ps1` | Host discovery + preflight report |
 | `01-New-LabSwitch.ps1` | Create isolated Hyper-V private switch |
 | `02-New-DC01.ps1` | Create DC01 VM, install Windows Server, promote to DC |
-| `03-Build-ADStructure.ps1` | Create OUs, users, groups, GPOs for lab.local |
+| `03-Build-ADStructure.ps1` | Create OUs, users, groups, GPOs for omari.local |
 | `04-New-HD01.ps1` | Create HD01 Windows 11 client, domain join |
 | `05-New-FS01.ps1` | Optional file server (FS01) |
 | `06-Manage-Checkpoints.ps1` | Checkpoint management |
@@ -134,9 +145,9 @@ PowerShell scripts for building real Hyper-V VMs are in `09-SCRIPTS/vm/`:
 
 | Setting | Value |
 |---------|-------|
-| Company | IAM Career Lab |
-| Domain | lab.local |
-| NetBIOS | LAB |
+| Company | OMARI Technologies (fictional) |
+| Domain | omari.local |
+| NetBIOS | OMARI |
 | Network | 10.10.10.0/24 (isolated) |
 | DC01 | 10.10.10.10 |
 | HD01 | 10.10.10.100 |

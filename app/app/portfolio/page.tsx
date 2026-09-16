@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { years, getYear } from "@/lib/data/years";
 import { generateYearPortfolio } from "@/lib/portfolio";
@@ -8,6 +9,19 @@ import { useProgress } from "@/components/ProgressProvider";
 export default function PortfolioPage() {
   const { progress } = useProgress();
   const [results, setResults] = useState<Record<string, string>>({});
+
+  // Link the learner at the furthest year they have actually unlocked, so the
+  // "Phase pages" pointer lands somewhere they can use rather than on a
+  // locked year.
+  const resumeYear =
+    [...years].reverse().find((year) => {
+      const index = years.indexOf(year);
+      if (index === 0) return true;
+      return years[index - 1].phases.every((phase) => {
+        const record = progress.phases[phase.id];
+        return record && (record.status === "PASSED" || record.status === "PORTFOLIO READY");
+      });
+    }) ?? years[0];
 
   const generateYear = (yearId: string) => {
     const year = getYear(yearId);
@@ -27,7 +41,7 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-8">
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-white">Portfolio</h1>
         <p className="mt-1 text-sm text-[#93a4c0]">
@@ -89,8 +103,20 @@ export default function PortfolioPage() {
           Individual phase and ticket portfolio artifacts can be generated from their respective pages:
         </p>
         <ul className="mt-2 space-y-1 text-sm">
-          <li>• <a href="/tickets" className="text-omari-300 hover:underline">Tickets page</a> — generate incident reports per ticket</li>
-          <li>• Phase pages (via Year pages) — generate phase portfolio artifacts</li>
+          <li>
+            &bull;{" "}
+            <Link href="/tickets" className="text-omari-300 hover:underline">
+              Ticket queue
+            </Link>{" "}
+            &mdash; generate an incident report per ticket
+          </li>
+          <li>
+            &bull;{" "}
+            <Link href={`/year/${resumeYear.id}`} className="text-omari-300 hover:underline">
+              Phase pages
+            </Link>{" "}
+            &mdash; generate a portfolio artifact per phase, from any unlocked phase
+          </li>
         </ul>
       </div>
     </div>

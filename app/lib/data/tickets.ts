@@ -1,6 +1,8 @@
 import type { Ticket } from "./types";
+import { year3Tickets, year4Tickets } from "./tickets-advanced";
 
-export const tickets: Ticket[] = [
+/** Year 1 (help desk) and Year 2 (IAM analyst) queues. */
+const foundationTickets: Ticket[] = [
   // ===== YEAR 1 HELP DESK TICKETS =====
   {
     id: "HD-001",
@@ -12,7 +14,7 @@ export const tickets: Ticket[] = [
     businessImpact: "New employee cannot start work without access. Delayed onboarding costs productivity.",
     symptoms: ["No domain account exists for the new employee", "User needs access to Finance shared resources"],
     priority: "Medium",
-    affectedAsset: "DC01 / lab.local domain",
+    affectedAsset: "DC01 / omari.local domain",
     evidenceAvailable: ["HR onboarding request form", "Approved group list for Finance", "directory OU structure documentation"],
     hiddenRootCause:
       "The account does not exist yet. The correct process is to create the user in the Corporate OU under Users, add to GG-Finance and GG-File-Read, set a temporary password that must change at next logon, and verify sign-in on HD01.",
@@ -153,17 +155,17 @@ export const tickets: Ticket[] = [
     phaseId: "Y1-P05",
     title: "DNS problem",
     scenario:
-      "A client can ping the domain controller by IP address but cannot resolve the internal hostname dc01.lab.local.",
+      "A client can ping the domain controller by IP address but cannot resolve the internal hostname dc01.omari.local.",
     businessImpact: "Domain authentication and services may fail. AD relies on DNS.",
     symptoms: ["IP connectivity works", "Hostname resolution fails", "Domain join or login may fail"],
     priority: "High",
     affectedAsset: "HD01 / DNS",
     evidenceAvailable: ["ipconfig /all output", "nslookup results", "DNS server configuration"],
     hiddenRootCause:
-      "The client's DNS server is not set to DC01 (10.10.10.10). It is using a public DNS resolver which has no knowledge of the lab.local internal zone.",
+      "The client's DNS server is not set to DC01 (10.10.10.10). It is using a public DNS resolver which has no knowledge of the omari.local internal zone.",
     hints: [
       "What DNS server is the client using?",
-      "Can you resolve the hostname using DC01 explicitly (nslookup dc01.lab.local 10.10.10.10)?",
+      "Can you resolve the hostname using DC01 explicitly (nslookup dc01.omari.local 10.10.10.10)?",
       "Why must AD clients use the domain controller's DNS?",
     ],
     acceptanceCriteria: [
@@ -354,11 +356,11 @@ export const tickets: Ticket[] = [
     phaseId: "Y1-P07",
     title: "New workstation",
     scenario:
-      "A new workstation needs to be joined to the lab.local domain, named correctly, and verified for GPO and user access.",
+      "A new workstation needs to be joined to the omari.local domain, named correctly, and verified for GPO and user access.",
     businessImpact: "New hardware must be configured before it can be used productively.",
     symptoms: ["Workstation is not domain-joined", "Needs correct naming and GPO", "User access must be verified"],
     priority: "Medium",
-    affectedAsset: "New workstation / lab.local",
+    affectedAsset: "New workstation / omari.local",
     evidenceAvailable: ["Workstation network settings", "DNS configuration", "Domain join wizard", "GPO results"],
     hiddenRootCause: "N/A — this is a provisioning task, not a troubleshooting scenario.",
     hints: [
@@ -415,7 +417,7 @@ export const tickets: Ticket[] = [
     businessImpact: "Timely offboarding prevents unauthorized access by former employees.",
     symptoms: ["Employee has departed", "Account still active", "Access must be removed"],
     priority: "High",
-    affectedAsset: "Departed employee account / lab.local",
+    affectedAsset: "Departed employee account / omari.local",
     evidenceAvailable: ["HR termination notice", "User's group membership", "User's access history", "Account status"],
     hiddenRootCause: "N/A — this is an offboarding task requiring secure access removal.",
     hints: [
@@ -505,7 +507,7 @@ export const tickets: Ticket[] = [
     businessImpact: "Unauthorized access risk. Contractor may access systems after engagement end.",
     symptoms: ["Contractor account still active", "Contract ended", "No deprovisioning was performed"],
     priority: "Critical",
-    affectedAsset: "Contractor account / lab.local",
+    affectedAsset: "Contractor account / omari.local",
     evidenceAvailable: ["Contract end date", "Account status", "Last logon time", "Group memberships"],
     hiddenRootCause:
       "The leaver/deprovisioning workflow was not triggered when the contract ended. No automated or manual deprovisioning occurred.",
@@ -621,7 +623,7 @@ export const tickets: Ticket[] = [
     businessImpact: "Orphaned accounts are a security and compliance risk. No one is accountable.",
     symptoms: ["Account has no owner", "No manager listed", "No recent logon activity", "Still has active access"],
     priority: "High",
-    affectedAsset: "Orphaned account / lab.local",
+    affectedAsset: "Orphaned account / omari.local",
     evidenceAvailable: ["Account attributes (manager, owner)", "Last logon date", "Group memberships", "Account creation date"],
     hiddenRootCause:
       "The account was created for a temporary purpose or contractor and was never properly deprovisioned or assigned an owner when the engagement ended.",
@@ -681,7 +683,7 @@ export const tickets: Ticket[] = [
     businessImpact: "Duplicate identities cause audit confusion, access issues, and compliance problems.",
     symptoms: ["Two accounts for the same person", "Different usernames", "Same real name", "Possible conflicting access"],
     priority: "High",
-    affectedAsset: "Duplicate accounts / lab.local",
+    affectedAsset: "Duplicate accounts / omari.local",
     evidenceAvailable: ["Both account attributes", "Group memberships for each", "Creation dates", "Last logon for each"],
     hiddenRootCause:
       "A second account was created by mistake when the user changed departments, instead of updating the existing account. The provisioning process did not check for existing accounts.",
@@ -711,7 +713,7 @@ export const tickets: Ticket[] = [
     businessImpact: "Unmanaged service accounts are a security risk. No accountability for access or password rotation.",
     symptoms: ["Service account has no owner", "No documentation of purpose", "Active and has access"],
     priority: "High",
-    affectedAsset: "Service account / lab.local",
+    affectedAsset: "Service account / omari.local",
     evidenceAvailable: ["Account attributes (description, managedBy)", "Last logon and logon source", "Group memberships", "Account creation date"],
     hiddenRootCause:
       "The service account was created without documenting an owner or purpose, and the provisioning process did not require an owner attribute.",
@@ -741,7 +743,7 @@ export const tickets: Ticket[] = [
     businessImpact: "Potential unauthorized access attempt. Security incident.",
     symptoms: ["Authentication attempt after departure", "Account may or may not be disabled", "Sign-in logs show attempt"],
     priority: "Critical",
-    affectedAsset: "Former employee account / lab.local",
+    affectedAsset: "Former employee account / omari.local",
     evidenceAvailable: ["Sign-in logs with timestamp and source", "Account status", "Departure date", "HR records"],
     hiddenRootCause:
       "The account was not disabled promptly at departure, and the former employee (or someone with the credentials) attempted to access systems.",
@@ -791,10 +793,22 @@ export const tickets: Ticket[] = [
   },
 ];
 
+/**
+ * The full work queue across all four years.
+ *
+ * Ordered by year so the Tickets page renders the career progression in the
+ * same sequence the learner walks it.
+ */
+export const tickets: Ticket[] = [...foundationTickets, ...year3Tickets, ...year4Tickets];
+
 export function getTicketsByYear(yearId: string): Ticket[] {
   return tickets.filter((t) => t.yearId === yearId);
 }
 
 export function getTicket(id: string): Ticket | undefined {
   return tickets.find((t) => t.id === id);
+}
+
+export function getTicketsByPhase(phaseId: string): Ticket[] {
+  return tickets.filter((t) => t.phaseId === phaseId);
 }

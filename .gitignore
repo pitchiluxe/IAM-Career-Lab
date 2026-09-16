@@ -48,3 +48,6 @@ pnpm-lock.yaml
 app/.next/
 app/release/
 release/
+
+# TypeScript incremental build cache
+*.tsbuildinfo
