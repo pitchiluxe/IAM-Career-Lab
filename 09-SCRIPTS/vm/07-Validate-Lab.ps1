@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    IAM Career Lab — Full lab validation suite
+    IAM Career Lab - Full lab validation suite
 .DESCRIPTION
     Validates the complete IAM Career Lab lab: VM boot, Windows login, networking,
     DNS, domain join, domain authentication, AD users/groups/OUs, GPO, PowerShell,
@@ -9,7 +9,7 @@
     Purpose:     Verify the lab is fully operational
     Prerequisites: DC01 and HD01 VMs built and configured
     Permissions: Administrator on host; Domain Admin for AD checks
-    Safe-use:    Read-only validation — does not modify the system
+    Safe-use:    Read-only validation - does not modify the system
     Validation:   Produces a validation report
 #>
 
@@ -17,7 +17,7 @@
 param(
     [string[]]$VMNames = @("DC01", "HD01"),
     [string]$DomainController = "10.10.10.10",
-    [string]$DomainName = "lab.local",
+    [string]$DomainName = "omari.local",
     [string]$OllamaUrl = "http://localhost:11434"
 )
 
@@ -30,19 +30,19 @@ function Test-Check {
         $passed = & $Test
         if ($passed) {
             $results += [PSCustomObject]@{ Check=$Name; Status="PASS"; Detail=$PassMsg }
-            Write-Host "  [PASS] $Name — $PassMsg" -ForegroundColor Green
+            Write-Host "  [PASS] $Name - $PassMsg" -ForegroundColor Green
         } else {
             $results += [PSCustomObject]@{ Check=$Name; Status="FAIL"; Detail=$FailMsg }
-            Write-Host "  [FAIL] $Name — $FailMsg" -ForegroundColor Red
+            Write-Host "  [FAIL] $Name - $FailMsg" -ForegroundColor Red
         }
     } catch {
         $results += [PSCustomObject]@{ Check=$Name; Status="ERROR"; Detail=$_.Exception.Message }
-        Write-Host "  [ERROR] $Name — $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "  [ERROR] $Name - $($_.Exception.Message)" -ForegroundColor Red
     }
 }
 
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host " IAM Career Lab — Lab Validation" -ForegroundColor Cyan
+Write-Host " IAM Career Lab - Lab Validation" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -60,7 +60,7 @@ Test-Check -Name "Network: Ping DC01" -Test {
 } -PassMsg "DC01 reachable" -FailMsg "Cannot reach DC01"
 
 # DNS
-Test-Check -Name "DNS: Resolve lab.local" -Test {
+Test-Check -Name "DNS: Resolve omari.local" -Test {
     $result = Resolve-DnsName -Name $DomainName -Server $DomainController -ErrorAction SilentlyContinue
     $null -ne $result
 } -PassMsg "Domain name resolves" -FailMsg "DNS resolution failed"
@@ -135,5 +135,5 @@ Write-Host ""
 if ($fail -eq 0 -and $err -eq 0) {
     Write-Host "LAB VALIDATION: ALL CHECKS PASSED" -ForegroundColor Green
 } else {
-    Write-Host "LAB VALIDATION: ISSUES DETECTED — review failed checks above" -ForegroundColor Red
+    Write-Host "LAB VALIDATION: ISSUES DETECTED - review failed checks above" -ForegroundColor Red
 }

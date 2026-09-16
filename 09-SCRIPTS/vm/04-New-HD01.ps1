@@ -1,8 +1,8 @@
 <#
 .SYNOPSIS
-    IAM Career Lab — Create HD01 Windows 11 client VM
+    IAM Career Lab - Create HD01 Windows 11 client VM
 .DESCRIPTION
-    Creates the HD01 Windows 11 client VM, domain-joined to lab.local.
+    Creates the HD01 Windows 11 client VM, domain-joined to omari.local.
     Requires legitimate Windows 11 installation media (ISO). Does NOT pirate or bypass licensing.
 .NOTES
     Purpose:     Student workstation and help desk troubleshooting target
@@ -26,7 +26,7 @@ param(
     [string]$StaticIP = "10.10.10.100",
     [string]$SubnetMask = "255.255.255.0",
     [string]$DNSServer = "10.10.10.10",
-    [string]$DomainName = "lab.local"
+    [string]$DomainName = "omari.local"
 )
 
 $ErrorActionPreference = "Stop"

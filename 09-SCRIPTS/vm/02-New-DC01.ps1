@@ -1,8 +1,8 @@
 <#
 .SYNOPSIS
-    IAM Career Lab — Create DC01 domain controller VM
+    IAM Career Lab - Create DC01 domain controller VM
 .DESCRIPTION
-    Creates the DC01 VM (Windows Server) with AD DS + DNS for the lab.local domain.
+    Creates the DC01 VM (Windows Server) with AD DS + DNS for the omari.local domain.
     Requires legitimate Windows Server installation media (ISO). Does NOT pirate or bypass licensing.
 .NOTES
     Purpose:     Domain controller for the IAM Career Lab lab
@@ -25,8 +25,8 @@ param(
     [string]$VHDPath = "$env:USERPROFILE\HyperV\DC01\DC01.vhdx",
     [string]$StaticIP = "10.10.10.10",
     [string]$SubnetMask = "255.255.255.0",
-    [string]$DomainName = "lab.local",
-    [string]$NetBIOS = "LAB"
+    [string]$DomainName = "omari.local",
+    [string]$NetBIOS = "OMARI"
 )
 
 $ErrorActionPreference = "Stop"
