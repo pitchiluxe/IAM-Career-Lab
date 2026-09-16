@@ -94,8 +94,10 @@ export function getDefaultModel(): string {
   return process.env.OLLAMA_MODEL || "llama3.1";
 }
 
-export async function checkOllamaStatus(): Promise<{ available: boolean; models: OllamaModel[]; error?: string }> {
-  const baseUrl = getOllamaBaseUrl();
+export async function checkOllamaStatus(
+  baseUrlOverride?: string,
+): Promise<{ available: boolean; models: OllamaModel[]; error?: string }> {
+  const baseUrl = baseUrlOverride || getOllamaBaseUrl();
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 5000);
@@ -109,27 +111,72 @@ export async function checkOllamaStatus(): Promise<{ available: boolean; models:
     const data = (await res.json()) as OllamaTagsResponse;
     return { available: true, models: data.models || [] };
   } catch {
-    return { available: false, models: [], error: "Connection refused — Ollama is not running" };
+    return { available: false, models: [], error: `Could not reach Ollama at ${baseUrl}. Is 'ollama serve' running?` };
   }
 }
+
+/**
+ * Only localhost and loopback endpoints are accepted from the browser.
+ *
+ * The base URL is supplied by the client so Settings can point at a different
+ * local port, but the server then makes the request. Without this restriction
+ * a crafted request could make the server fetch an arbitrary internal address
+ * and report back what it found - a server-side request forgery primitive.
+ * The tutor is local by design, so restricting it to loopback costs nothing.
+ */
+export function isAllowedOllamaUrl(raw: string): boolean {
+  try {
+    const url = new URL(raw);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return false;
+    return ["localhost", "127.0.0.1", "[::1]", "::1", "0.0.0.0"].includes(url.hostname);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Generous but finite. A local model on modest hardware genuinely can take a
+ * minute or more for a long answer, so a short timeout produces false
+ * failures - but with no timeout at all a stalled request leaves the tutor
+ * spinning forever with no way back except a page reload.
+ */
+const CHAT_TIMEOUT_MS = 120_000;
 
 export async function chatWithOllama(
   model: string,
   messages: OllamaChatMessage[],
+  baseUrlOverride?: string,
 ): Promise<{ content: string; error?: string }> {
-  const baseUrl = getOllamaBaseUrl();
+  const baseUrl = baseUrlOverride || getOllamaBaseUrl();
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), CHAT_TIMEOUT_MS);
   try {
     const res = await fetch(`${baseUrl}/api/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ model, messages, stream: false }),
+      signal: controller.signal,
     });
     if (!res.ok) {
+      if (res.status === 404) {
+        return {
+          content: "",
+          error: `Ollama does not have the model "${model}". Pull it first with: ollama pull ${model}`,
+        };
+      }
       return { content: "", error: `Ollama returned HTTP ${res.status}` };
     }
     const data = await res.json();
     return { content: data.message?.content || "" };
   } catch (e) {
+    if (e instanceof Error && e.name === "AbortError") {
+      return {
+        content: "",
+        error: `The model did not respond within ${CHAT_TIMEOUT_MS / 1000}s. A smaller model such as llama3.2:3b will respond far faster on modest hardware.`,
+      };
+    }
     return { content: "", error: e instanceof Error ? e.message : "Failed to connect to Ollama" };
+  } finally {
+    clearTimeout(timer);
   }
 }
