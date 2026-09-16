@@ -1,17 +1,28 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { years } from "@/lib/data/years";
+import { tickets, getTicketsByYear } from "@/lib/data/tickets";
+import { drillCards } from "@/lib/data/drills";
+
+// Derived from the curriculum data rather than hardcoded. The previous
+// hardcoded values claimed 44 phases and "11 each" when three of the four
+// years actually had 8, and claimed 27 tickets with Years 3 and 4 empty.
+const TOTAL_PHASES = years.reduce((n, y) => n + y.phases.length, 0);
+const TOTAL_TICKETS = tickets.length;
+const TOTAL_DRILLS = drillCards.length;
 
 const features = [
   {
     icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-    title: "44 Progressive Phases",
-    desc: "Four years of hands-on labs: Help Desk, IAM Analyst, IAM Engineer, and IAM Architect — each with 11 phases.",
+    title: `${TOTAL_PHASES} Progressive Phases`,
+    desc: `Four years of hands-on labs: Help Desk, IAM Analyst, IAM Engineer, and IAM Architect — ${years[0].phases.length} phases each, gated sequentially.`,
   },
   {
     icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
-    title: "27 Realistic Tickets",
+    title: `${TOTAL_TICKETS} Realistic Tickets`,
     desc: "Password resets, account lockouts, DNS failures, GPO issues, suspicious logins, and IAM investigations with hidden root causes.",
   },
   {
@@ -45,8 +56,8 @@ const yearPath = [
     icon: "M18 8h1a4 4 0 010 8h-1M6 8h12v8a6 6 0 01-12 0V8z M8 14h.01 M12 14h.01 M16 14h.01",
     summary: "Master the fundamentals of IT support — from Windows administration to networking, Active Directory, and ticketing.",
     skills: ["Windows", "Networking", "AD", "GPO", "PowerShell"],
-    phases: 11,
-    tickets: 15,
+    phases: years[0].phases.length,
+    tickets: getTicketsByYear("year-1").length,
   },
   {
     year: "Year 2",
@@ -56,8 +67,8 @@ const yearPath = [
     icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
     summary: "Step into identity and access management — SSO, MFA, RBAC, lifecycle management, and access reviews.",
     skills: ["SSO", "MFA", "RBAC", "Lifecycle", "Access Reviews"],
-    phases: 11,
-    tickets: 12,
+    phases: years[1].phases.length,
+    tickets: getTicketsByYear("year-2").length,
   },
   {
     year: "Year 3",
@@ -67,8 +78,8 @@ const yearPath = [
     icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z",
     summary: "Build and automate IAM systems — REST APIs, IGA platforms, privileged access management, and incident response.",
     skills: ["Automation", "REST APIs", "IGA", "PAM", "Incident Response"],
-    phases: 11,
-    tickets: 0,
+    phases: years[2].phases.length,
+    tickets: getTicketsByYear("year-3").length,
   },
   {
     year: "Year 4",
@@ -78,8 +89,8 @@ const yearPath = [
     icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0H5m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m-1 4h1m5-9h1m-1 4h1m-1 4h1 M3 21h18",
     summary: "Lead IAM strategy and governance — zero trust architecture, risk management, and enterprise leadership.",
     skills: ["Zero Trust", "Governance", "Risk", "Architecture", "Leadership"],
-    phases: 11,
-    tickets: 0,
+    phases: years[3].phases.length,
+    tickets: getTicketsByYear("year-4").length,
   },
 ];
 
@@ -106,7 +117,7 @@ export default function LandingPage() {
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#1f2d4d]/50 bg-[#0b1120]/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-omari-600 font-bold text-white">IL</div>
+            <Image src="/icon.png" alt="" unoptimized width={36} height={36} className="h-9 w-9 rounded-lg" priority />
             <span className="text-sm font-bold text-white">IAM Career Lab</span>
           </div>
           <div className="hidden items-center gap-6 text-sm text-[#93a4c0] md:flex">
@@ -182,11 +193,11 @@ export default function LandingPage() {
               <div className="text-xs text-[#5a6b88]">Career Years</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-white">44</div>
+              <div className="text-3xl font-bold text-white">{TOTAL_PHASES}</div>
               <div className="text-xs text-[#5a6b88]">Lab Phases</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-white">27</div>
+              <div className="text-3xl font-bold text-white">{TOTAL_TICKETS}</div>
               <div className="text-xs text-[#5a6b88]">Tickets</div>
             </div>
           </div>
@@ -232,7 +243,7 @@ export default function LandingPage() {
         <div className="mb-16 text-center">
           <div className="fade-in mb-4 inline-flex items-center gap-2 rounded-full border border-[#1f2d4d] bg-[#111a2e] px-4 py-2 text-xs text-[#93a4c0]">
             <span className="h-2 w-2 rounded-full bg-omari-500 animate-pulse"></span>
-            44 Phases · 4 Career Gates · Sequential Unlock
+            {TOTAL_PHASES} Phases · {TOTAL_TICKETS} Tickets · {TOTAL_DRILLS} Drills · 4 Career Gates
           </div>
           <h2 className="fade-up text-3xl font-bold text-white md:text-5xl" style={{ animationDelay: "0.1s" }}>
             Your Four-Year <span className="gradient-text">Career Path</span>
@@ -468,11 +479,11 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl px-6 py-8">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-omari-600 text-sm font-bold text-white">IL</div>
+              <Image src="/icon.png" alt="" unoptimized width={32} height={32} className="h-8 w-8 rounded-lg" />
               <span className="text-sm text-[#93a4c0]">IAM Career Lab — Identity & Access Management Training</span>
             </div>
             <div className="text-xs text-[#5a6b88]">
-              Created by Erick OMARI · Domain: lab.local · Network: 10.10.10.0/24
+              Created by Erick OMARI · Domain: omari.local · Network: 10.10.10.0/24
             </div>
           </div>
         </div>

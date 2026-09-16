@@ -34,7 +34,7 @@ PowerShell scripts for building real Hyper-V VMs are in `../09-SCRIPTS/vm/`:
 | `00-Host-Preflight.ps1` | Full host discovery + preflight report |
 | `01-New-LabSwitch.ps1` | Create isolated Hyper-V private switch (10.10.10.0/24) |
 | `02-New-DC01.ps1` | Create DC01 VM, install Windows Server, promote to DC |
-| `03-Build-ADStructure.ps1` | Create OUs, users, groups, GPOs for lab.local |
+| `03-Build-ADStructure.ps1` | Create OUs, users, groups, GPOs for omari.local |
 | `04-New-HD01.ps1` | Create HD01 Windows 11 client, domain join |
 | `05-New-FS01.ps1` | Optional file server (FS01) |
 | `06-Manage-Checkpoints.ps1` | Checkpoint management |
