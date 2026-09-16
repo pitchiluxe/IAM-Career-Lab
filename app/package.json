@@ -1,6 +1,6 @@
 {
   "name": "iam-career-lab",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "private": true,
   "description": "IAM Career Lab - Four-year hands-on Identity and Access Management training platform",
   "author": "Erick OMARI",
@@ -16,6 +16,7 @@
     "electron:pack": "cross-env ELECTRON_BUILD=true npm run build && node scripts/copy-standalone.js && node scripts/pre-package.js && electron-builder --win --x64 --dir"
   },
   "dependencies": {
+    "electron-updater": "^6.3.9",
     "next": "^14.2.33",
     "react": "18.3.1",
     "react-dom": "18.3.1"
@@ -29,7 +30,6 @@
     "cross-env": "^7.0.3",
     "electron": "^33.0.0",
     "electron-builder": "^25.1.8",
-    "electron-updater": "^6.3.9",
     "postcss": "8.4.39",
     "tailwindcss": "3.4.6",
     "typescript": "5.5.3",
@@ -48,7 +48,12 @@
       "electron/preload.js",
       "electron/build/icon.ico",
       "electron/build/icon.png",
-      "package.json"
+      "package.json",
+      "node_modules/**/*",
+      "!node_modules/next/**/*",
+      "!node_modules/react/**/*",
+      "!node_modules/react-dom/**/*",
+      "!node_modules/.bin/**/*"
     ],
     "extraResources": [
       {
